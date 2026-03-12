@@ -75,6 +75,9 @@ to interact-with [partner]
     act-unethically partner
     set behavior "unethical"
   ]
+  
+  ;; the below code shows ethicality and score of each agent(person)
+  set label(word"e:" ethicality ", s:" myscore)
 end
 
 ; If the agent acts ethically, he pays cost and his partner gains benefit
