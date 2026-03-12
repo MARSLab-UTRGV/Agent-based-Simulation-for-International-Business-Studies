@@ -138,7 +138,3 @@ to update-visuals
   ask turtles [recolor]
 end
 
-
-
-; Copyright 2022 Uri Wilensky.
-; See Info tab for full copyright and license.
