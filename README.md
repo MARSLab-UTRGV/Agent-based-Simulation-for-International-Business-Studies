@@ -1,9 +1,11 @@
 # Agent-Based Models for International Business Studies (IBS)
-This project focuses on the investigation of unethical behaviors in international business studies. We observe individuals' behavior in corruption in an agent-based simulation. We want to discover different or optimal strategies in simulation. We analyze the results and learn the impacts of different parameters (e.g., number of different agents, relative-cost-of-behavior, and diversity) in the settings of the simulation.
+This project focuses on investigating unethical behavior in international business studies. We observe individuals' behavior in corruption in an agent-based simulation. We want to discover different or optimal strategies in simulation. We analyze the results and learn the impacts of different parameters (e.g., number of agents, relative-cost-of-behavior, and diversity) in the simulation settings.
 We will simulate the following three models in different contexts.
 1. **Model A**: Game-theoretic benchmark. Agents maximize expected payoff under full rationality
 2. **Model B**: Behavioral strategy model. 5 agents (copying, fraud, cooperative, avenger, and detective) are defined based on their behaviors. The goal is to get heterogeneous strategies.
 3. **Model C**: Behavioral + IBS context model. We will observe the performance of 5 agents under different IBS parameters.
+
+<img width="1219" height="724" alt="image" src="https://github.com/user-attachments/assets/06159df1-22ca-4121-aeb5-4e07cf49ff8f" />
 
 ## Simulation development platform NetLogo
 NetLogo is a programmable modeling environment for simulating natural and social phenomena. 
