@@ -16,9 +16,9 @@ It is a powerful yet easy-to-learn platform for agent-based modeling in both res
 ## Running This Project In Netlogo
 There are 2 ways to run this project. The easy way and the learning way.
 ### Easy
-1. Dowload a zip file.
+1. Dowload the zip file of this project.
 2. Open the zip file and extract the items if you wish.
-3. Click on the Netlogo Model file title "Ethical or Unethical".
+3. Click on the Netlogo Model file titled "Ethical or Unethical".
 4. Click the setup button >> then click the go button.
 
 ### Learning
