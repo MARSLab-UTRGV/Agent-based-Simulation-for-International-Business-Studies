@@ -13,9 +13,9 @@ It is a powerful yet easy-to-learn platform for agent-based modeling in both res
    * For Mac, choose whichever you have. 
 ---
 
-## Running this project in Netlogo
+## Running This Project In Netlogo
 There are 2 ways to run this project. The easy way and the learning way.
-### Easy.
+### Easy
 1. Dowload a zip file.
 2. Open the zip file and extract the items if you wish.
 3. Click on the Netlogo Model file title "Ethical or Unethical".
