@@ -30,7 +30,7 @@ In this method there are two sections to running this project.
    * Click on "Included Files >> Click on "Open Source File" choose the .nls file you downloaded.
    * Another tab will open with the downloaded source file.
    * An Error will occur on that Tab. Dismiss it. Another error would be on the top of your screen highlighted in yellow. Ignore it.
-   * Copy the code from the current tab and paste it in the main "Code" tab.
+   * Cut the code from the current tab and paste it in the main "Code" tab. Delete the empty tab.
 
 When you finish this go to the "Interface" tab to set the buttons, sliders, and plots to be used in this project. You will get an error when you try to switch tabs. Ignore it and click the "Interface" tab once more. Then follow the below instructions.
 
