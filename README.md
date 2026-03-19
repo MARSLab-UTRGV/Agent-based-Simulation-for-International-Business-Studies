@@ -14,7 +14,16 @@ It is a powerful yet easy-to-learn platform for agent-based modeling in both res
 ---
 
 ## Running this project in Netlogo
-### The Algorithm
+There are 2 ways to run this project. The easy way and the learning way.
+### Easy.
+1. Dowload a zip file.
+2. Open the zip file and extract the items if you wish.
+3. Click on the Netlogo Model file title "Ethical or Unethical".
+4. Click the setup button >> then click the go button.
+
+### Learning
+In this method there are two sections to running this project.
+#### The Algorithm
 1. Download the .nls file from github
 2. Open Netlogo and open the source file using the below instructions
    * On Netlogo go to the "Code Tab"
@@ -25,7 +34,7 @@ It is a powerful yet easy-to-learn platform for agent-based modeling in both res
 
 When you finish this go to the "Interface" tab to set the buttons, sliders, and plots to be used in this project. You will get an error when you try to switch tabs. Ignore it and click the "Interface" tab once more. Then follow the below instructions.
 
-### The Interface
+#### The Interface
 1. Click on "Add Widget".
 2. Create two buttons. Name one "setup" and the other "go". Check the forever button for "go" if it's not already checked.
 3. Click on "Add Widget" once more.
@@ -43,7 +52,7 @@ When you finish this go to the "Interface" tab to set the buttons, sliders, and 
        * <img width="501" height="119" alt="image" src="https://github.com/user-attachments/assets/2326b54e-77c6-44b5-80e1-850339039bb7" />
    * Name: Average Score. Add 1 pen: avg-score (blue) and check the "show legend".
        * <img width="505" height="107" alt="image" src="https://github.com/user-attachments/assets/aa47f673-5407-4beb-bee9-5b8e835e5047" />
-7. Click setup and then go.
+7. Click the setup button >> then click the go button.
 
 
 
