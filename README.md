@@ -25,7 +25,7 @@ There are 2 ways to run this project. The easy way and the learning way.
 ### Easy
 1. Download the zip file of this project.
 2. Open the zip file and extract the items if you wish.
-3. Click on the NetLogo model file titled "Ethical or Unethical".
+3. Click on the NetLogo model file titled "Ethical or Unethical.nlogox".
 4. Click the setup button,>> then click the go button.
 
 ### Learning
@@ -60,6 +60,17 @@ When you finish this, go to the "Interface" tab to set the buttons, sliders, and
    * Name: Average Score. Add 1 pen: avg-score (blue) and check the "show legend".
        * <img width="505" height="107" alt="image" src="https://github.com/user-attachments/assets/aa47f673-5407-4beb-bee9-5b8e835e5047" />
 7. Click the setup button,>> then click the go button.
+     * - <img width="1902" height="1067" alt="Screenshot 2026-03-26 142306" src="https://github.com/user-attachments/assets/708b4f54-deca-4bae-aff4-b0f454f1a4a0" />
+   * Screen should look similar to the above picture if the setup is correct
+    
+     - <img width="1905" height="1076" alt="Screenshot 2026-03-26 142332" src="https://github.com/user-attachments/assets/e3587aa4-575f-4ce8-a98f-0b36e601465b" />
+   * Screen should be similar to the above picture after setup button is clicked.
+     
+     - <img width="1898" height="1072" alt="Screenshot 2026-03-26 142421" src="https://github.com/user-attachments/assets/89db98bf-12bf-46cd-86ad-72a45b210423" />
+   * Click the go button to start the simulation >> When the ticks (in yellow rectangle) <=500 click on the go button to stop it. Screen should look similar to the above picture.
+
+
+
 
 
 
