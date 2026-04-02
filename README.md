@@ -1,11 +1,18 @@
-# NetLogo
+# Agent-Based Models for International Business Studies (IBS)
+This project focuses on investigating unethical behavior in international business studies. We observe individuals' behavior in corruption in an agent-based simulation. We want to discover different or optimal strategies in simulation. We analyze the results and learn the impacts of different parameters (e.g., number of agents, relative-cost-of-behavior, and diversity) in the simulation settings.
+We will simulate the following three models in different contexts.
+1. **Model A**: Game-theoretic benchmark. Agents maximize expected payoff under full rationality
+2. **Model B**: Behavioral strategy model. 5 agents (copying, fraud, cooperative, avenger, and detective) are defined based on their behaviors. The goal is to get heterogeneous strategies.
+3. **Model C**: Behavioral + IBS context model. We will observe the performance of 5 agents under different IBS parameters.
+
+<img width="1219" height="724" alt="image" src="https://github.com/user-attachments/assets/06159df1-22ca-4121-aeb5-4e07cf49ff8f" />
+
+## Simulation development platform NetLogo
 NetLogo is a programmable modeling environment for simulating natural and social phenomena. 
 It is a powerful yet easy-to-learn platform for agent-based modeling in both research and education.
 
-##### NOTE: NetLogo is a special-purpose Domain Specific Language; hence, it can only be used within the NetLogo environment. It cannot be run in IDEs like VS Code. Below are guidelines on how to install NetLogo and run a project within it. 
+##### NOTE: NetLogo is a special-purpose Domain Specific Language; hence, it can only be used within the NetLogo environment. It cannot be run in IDEs like VS Code. Below are guidelines on how to install NetLogo and run a project within it.
 
-
-## Installing Netlogo
 1. On Google search "Netlogo download for [whatever os your laptop uses]"
    * Options are Linux, Mac, and Windows.
 3. Input your information (First & Last name, Email, etc).
@@ -13,26 +20,26 @@ It is a powerful yet easy-to-learn platform for agent-based modeling in both res
    * For Mac, choose whichever you have. 
 ---
 
-## Running This Project In Netlogo
+## Running This Project In NetLogo
 There are 2 ways to run this project. The easy way and the learning way.
 ### Easy
-1. Dowload the zip file of this project.
+1. Download the zip file of this project.
 2. Open the zip file and extract the items if you wish.
-3. Click on the Netlogo Model file titled "Ethical or Unethical".
-4. Click the setup button >> then click the go button.
+3. Click on the NetLogo model file titled "Ethical or Unethical.nlogox".
+4. Click the setup button,>> then click the go button.
 
 ### Learning
-In this method there are two sections to running this project.
+In this method, there are two sections to running this project.
 #### The Algorithm
-1. Download the .nls file from github
-2. Open Netlogo and open the source file using the below instructions
-   * On Netlogo go to the "Code Tab"
-   * Click on "Included Files >> Click on "Open Source File" choose the .nls file you downloaded.
+1. Download the .nls file from GitHub
+2. Open NetLogo and open the source file using the instructions below.
+   * On Netlogo go to the "Code Tab."
+   * Click on "Included Files >> Click on "Open Source File", choose the .nls file you downloaded.
    * Another tab will open with the downloaded source file.
-   * An Error will occur on that Tab. Dismiss it. Another error would be on the top of your screen highlighted in yellow. Ignore it.
-   * Cut the code from the current tab and paste it in the main "Code" tab. Delete the empty tab.
+   * An Error will occur on that Tab. Dismiss it. Another error would be at the top of your screen, highlighted in yellow. Ignore it.
+   * Cut the code from the current tab and paste it into the main "Code" tab. Delete the empty tab.
 
-When you finish this go to the "Interface" tab to set the buttons, sliders, and plots to be used in this project. You will get an error when you try to switch tabs. Ignore it and click the "Interface" tab once more. Then follow the below instructions.
+When you finish this, go to the "Interface" tab to set the buttons, sliders, and plots to be used in this project. You will get an error when you try to switch tabs. Ignore it and click the "Interface" tab once more. Then follow the instructions below.
 
 #### The Interface
 1. Click on "Add Widget".
@@ -46,13 +53,24 @@ When you finish this go to the "Interface" tab to set the buttons, sliders, and 
 5. Click on "Add Widget" once more, and create a chooser:
      * Global-Var: turtle-shape, Choice: "person" "circle".
 6. Create 3 plots through "Add Widget" once more.
-   * Name: Ethical & Unethical Behavior. Add 2 pens: ethical(green) and unethical(red) and check "show legend".
+   * Name: Ethical & Unethical Behavior. Add 2 pens: ethical(green) and unethical(red), and check "show legend".
      * <img width="508" height="283" alt="image" src="https://github.com/user-attachments/assets/9cee3f58-dba6-4c34-9e6e-2220304db364" />
    * Name: Average Ethicality. Add 1 pen: avg-ethicality (black) and check "show legend".
        * <img width="501" height="119" alt="image" src="https://github.com/user-attachments/assets/2326b54e-77c6-44b5-80e1-850339039bb7" />
    * Name: Average Score. Add 1 pen: avg-score (blue) and check the "show legend".
        * <img width="505" height="107" alt="image" src="https://github.com/user-attachments/assets/aa47f673-5407-4beb-bee9-5b8e835e5047" />
-7. Click the setup button >> then click the go button.
+7. Click the setup button,>> then click the go button.
+     * - <img width="1902" height="1067" alt="Screenshot 2026-03-26 142306" src="https://github.com/user-attachments/assets/708b4f54-deca-4bae-aff4-b0f454f1a4a0" />
+   * Screen should look similar to the above picture if the setup is correct
+    
+     - <img width="1905" height="1076" alt="Screenshot 2026-03-26 142332" src="https://github.com/user-attachments/assets/e3587aa4-575f-4ce8-a98f-0b36e601465b" />
+   * Screen should be similar to the above picture after setup button is clicked.
+     
+     - <img width="1898" height="1072" alt="Screenshot 2026-03-26 142421" src="https://github.com/user-attachments/assets/89db98bf-12bf-46cd-86ad-72a45b210423" />
+   * Click the go button to start the simulation >> When the ticks (in yellow rectangle) <=500 click on the go button to stop it. Screen should look similar to the above picture.
+
+
+
 
 
 
