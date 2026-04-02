@@ -5,18 +5,42 @@ globals [
   ;diversity            ;; mutation strength during reproduction
   ;average-ethicality   ;; level of ethicality for population
   
+  ;; the global variables above might have to be deleted from the interface as well
+  
+  T                    ;; +3 for unethicaleing and fooling other party
+  R                    ;; +2 reward for both parties for co-operating
+  P                    ;;  0 if the two parties defraud each other
+  S                    ;; -1 for the party that get defrauded
+  
+  ;percent-copying     ;; we are currently testing this one
+  percent-avenger
+  ;percent-frauds      ;; we are currently testing this one
+  percent-cooperative
+  percent-detective
+  
+  
 ]
 
 turtles-own [
-  ethicality  ;; moral character (0-100)
-  myscore     ;; fitness score, determines whether they live or die
-  behavior   ;; records whether the people are acting ethically or not.
+  ethicality           ;; moral character (0-100)
+  myscore              ;; fitness score, determines whether they live or die
+  behavior             ;; records whether the people are acting ethically or not.
+  
+  strategy             ;; This will store which of the five types the agent is
+  has-been-cheated?    ;; Boolean value for wheather the agents have been defrauded or not.
+  sequence-step        ;; This is specifically for the Detective Agent.
+  last-action          ;; will help the copying agent determine the past behavior of patner.
+  
 ]
 
 ;; The setup is divided into 2 procedures
 to setup
   clear-all
   setup-turtles
+  set T 3
+  set R 2
+  set P 0
+  set S -1
   reset-ticks 
 end
 
@@ -24,9 +48,14 @@ end
 to setup-turtles
 
   create-turtles number-of-agents [
+    
     set shape turtle-shape
     setxy random-xcor random-ycor
     set size 1.5  ;; easier to see
+    assign-strategy
+    set has-been-cheated? false
+    set sequence-step 0 
+    set last-action "ethical"
     
     ; Ethicality drawn from normal distribution
     set ethicality round random-normal average-ethicality diversity
@@ -40,6 +69,8 @@ to setup-turtles
 end
 
 to go
+  if ticks >= 500 [stop]
+  
   ask turtles [move]
   interact
   reproduce
@@ -54,47 +85,164 @@ to move ;; turtle procedure
   fd 1
 end
 
+;; To assign startegies that would be used in each simulation.
+to assign-strategy
+  let n random-float 100
+  
+  if n < percent-copying [
+    set strategy "copying"
+  ]
+  if n >= percent-copying and n < percent-copying + percent-frauds [
+    set strategy "fraud"
+  ]
+  if n >= percent-copying + percent-frauds and n < percent-copying + percent-frauds + percent-cooperative [
+    set strategy "cooperator"
+  ]
+  if n >=  percent-copying + percent-frauds + percent-cooperative and n < percent-copying + percent-frauds + percent-cooperative + percent-avenger [
+    set strategy "avenger"
+  ]
+  if n >= percent-copying + percent-frauds + percent-cooperative + percent-avenger and n < percent-copying + percent-frauds + percent-cooperative + percent-avenger + percent-detective [
+    set strategy "detective"
+  ]
+end
 
-to interact 
-  ask turtles[
-    if any? other turtles-here[
+; make a pair interact continuously
+;to interact 
+ ; ask turtles[
+  ;  if any? other turtles-here[
+   ;   let partner one-of other turtles-here
+    ;  interact-with partner
+    ;]
+  ;]
+;end
+
+; makes a pair interact once before the agents move on to find another partner
+to interact
+  ask turtles [
+    if any? other turtles-here [
       let partner one-of other turtles-here
-      interact-with partner
+      if who < [who] of partner [
+        interact-with partner
+      ]
     ]
   ]
 end
 
 to interact-with [partner]
-  let chance random 100
-  if ethicality >= chance [
-    act-ethically partner
-    set behavior "ethical"
+  let my-action decide-action partner
+  let partner-action [decide-action myself] of partner
+  
+  ;; store behavior BEFORE payoff
+  set behavior my-action
+  ask partner [ set behavior partner-action ]
+  
+  ;; Updates Ethciality
+  if my-action = "ethical" [
+    set ethicality ethicality + 1
+  ]
+  if my-action = "unethical" [
+    set ethicality ethicality - 1
+  ]
+  bound-ethicality
+  
+  ;; update ethciality for partner
+  ask partner[
+    if partner-action = "ethical" [
+      set ethicality ethicality + 1
+    ]
+    if partner-action = "unethical" [
+      set ethicality ethicality - 1
+    ]
+    bound-ethicality
   ]
   
-  if ethicality < chance [
-    act-unethically partner
-    set behavior "unethical"
+  apply-payoff partner my-action partner-action
+  
+  ;; memory update
+  if partner-action = "unethical" [
+    set has-been-cheated? true
   ]
   
-  ;; the below code shows ethicality and score of each agent(person)
-  set label(word"e:" ethicality ", s:" myscore)
+  set last-action my-action
+  ask partner [set last-action partner-action]
 end
 
-; If the agent acts ethically, he pays cost and his partner gains benefit
-to act-ethically [partner]
-  set myscore myscore - relative-cost 
-  ask partner[ 
-    set myscore myscore + 1 
+
+;; This decides the actions that each agent take.
+to-report decide-action [partner]
+
+  ;; The cooperatiove agent is always ethical
+  if strategy = "cooperator" [
+    report "ethical"
   ]
+  
+  ;; the fraud agent always defrauds its partner
+  if strategy = "fraud" [
+    report "unethical"
+  ]
+  
+  ;; the avenger agent is always ethical until its been defrauded then it begins to defraud its partner forever
+  if strategy = "avenger" [
+    if has-been-cheated? [
+      report "unethical"
+    ]
+    report "ethical"
+  ]
+  
+  ;; the copying agent starts ethical then copies the last move of its partner
+  if strategy = "copying" [
+    ifelse [last-action] of partner = "unethical" [
+      report "unethical"
+    ][
+      report "ethical"
+    ]
+  ]
+  
+  
+  ;; The below strategy is more extensive than this as it also utilizes the strategy of the copying and fraud agent. 
+  ;; This is just a base of what it could be like.
+  if strategy = "detective" [
+    ;; simplified version
+    if sequence-step = 0 [ set sequence-step 1 report "ethical" ]
+    if sequence-step = 1 [ set sequence-step 2 report "unethical" ]
+    report "ethical"
+  ]
+  
+  ;; safety net
+  report "ethical"
 end
 
-; If the agentn acts unethically, he gains an advantage and the partner loses
-to act-unethically [partner]
-  set myscore myscore + 1 
-  ask partner[ 
-    set myscore myscore - 1
+
+;; This is the implementation of the Prisoner's Dillema as a reward systen for the agents
+to apply-payoff [partner my-action partner-action]
+
+  ;; ethical / ethical
+  if my-action = "ethical" and partner-action = "ethical" [
+    set myscore myscore + R
+    ask partner [ set myscore myscore + R ]
   ]
+  
+  ;; unethical / unethical
+  if my-action = "unethical" and partner-action = "unethical" [
+    set myscore myscore + P
+    ask partner [ set myscore myscore + P ]
+  ]
+  
+  ;; unethical vs ethical
+  if my-action = "unethical" and partner-action = "ethical" [
+    set myscore myscore + T
+    ask partner [ set myscore myscore + S ]
+  ]
+  
+  ;; ethical vs unethical
+  if my-action = "ethical" and partner-action = "unethical" [
+    set myscore myscore + S
+    ask partner [ set myscore myscore + T ]
+  ]
+
 end
+
+
 
 ;; This is what decides or affects the diversity rate of the turtles. Evolutionary Selection
 ;; The 3 with lowest scores die and the 3 with highest score duplicate and their score halfens
@@ -108,11 +256,18 @@ to reproduce
     hatch 1[
       move
       
-      ; Child inherits ethicality with mutation
-      set ethicality ethicality + round random-normal 0 diversity / 4
+      ;; inherit strategy
+      set strategy [strategy] of myself
+  
+      ;; slight mutation (optional)
+      if random-float 100 < 5 [
+        assign-strategy
+      ]
+  
+      ;; inherit ethicality slightly mutated
+      set ethicality ethicality + random 5 - 2
       bound-ethicality
-      
-      ; fresh score for child and new color
+  
       set myscore random 100
       recolor
     ]
@@ -121,7 +276,7 @@ end
 
 to bound-ethicality
   if ethicality < 0 [ set ethicality 0]
-  if ethicality > 100 [set ethicality 100]
+  if ethicality > 100 [set ethicality 100] 
 end
 
 ; If they maintain good ethical conduct they are presented as gree, else they are red
