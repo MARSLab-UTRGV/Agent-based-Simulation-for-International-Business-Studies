@@ -75,6 +75,7 @@ to go
   interact
   reproduce
   update-visuals
+  update-labels
   update-plots
   tick              
 end
@@ -106,25 +107,19 @@ to assign-strategy
   ]
 end
 
-; make a pair interact continuously
-;to interact 
- ; ask turtles[
-  ;  if any? other turtles-here[
-   ;   let partner one-of other turtles-here
-    ;  interact-with partner
-    ;]
-  ;]
-;end
 
-; makes a pair interact once before the agents move on to find another partner
+; makes a pair interact once before the agents move on to find another partner to pair with 
 to interact
   ask turtles [
     if any? other turtles-here [
       let partner one-of other turtles-here
       if who < [who] of partner [
-        interact-with partner
+        repeat 20[
+          interact-with partner
+        ]
       ]
     ]
+    
   ]
 end
 
@@ -291,5 +286,19 @@ end
 
 to update-visuals
   ask turtles [recolor]
+end
+
+to update-labels
+  ask turtles [
+    let short-strat ""
+
+    if strategy = "copying" [ set short-strat "C" ]
+    if strategy = "fraud" [ set short-strat "F" ]
+    if strategy = "cooperator" [ set short-strat "Co" ]
+    if strategy = "avenger" [ set short-strat "A" ]
+    if strategy = "detective" [ set short-strat "D" ]
+
+    set label (word short-strat "\ne:" ethicality "\ns:" myscore)
+  ]
 end
 

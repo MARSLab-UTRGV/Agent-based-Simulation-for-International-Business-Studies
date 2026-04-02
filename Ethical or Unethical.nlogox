@@ -77,6 +77,7 @@ to go
   interact
   reproduce
   update-visuals
+  update-labels
   update-plots
   tick              
 end
@@ -108,25 +109,19 @@ to assign-strategy
   ]
 end
 
-; make a pair interact continuously
-;to interact 
- ; ask turtles[
-  ;  if any? other turtles-here[
-   ;   let partner one-of other turtles-here
-    ;  interact-with partner
-    ;]
-  ;]
-;end
 
-; makes a pair interact once before the agents move on to find another partner
+; makes a pair interact once before the agents move on to find another partner to pair with 
 to interact
   ask turtles [
     if any? other turtles-here [
       let partner one-of other turtles-here
       if who < [who] of partner [
-        interact-with partner
+        repeat 20[
+          interact-with partner
+        ]
       ]
     ]
+    
   ]
 end
 
@@ -295,6 +290,20 @@ to update-visuals
   ask turtles [recolor]
 end
 
+to update-labels
+  ask turtles [
+    let short-strat ""
+
+    if strategy = "copying" [ set short-strat "C" ]
+    if strategy = "fraud" [ set short-strat "F" ]
+    if strategy = "cooperator" [ set short-strat "Co" ]
+    if strategy = "avenger" [ set short-strat "A" ]
+    if strategy = "detective" [ set short-strat "D" ]
+
+    set label (word short-strat "\ne:" ethicality "\ns:" myscore)
+  ]
+end
+
 ]]></code>
   <widgets>
     <view x="275" wrappingAllowedX="true" y="10" frameRate="30.0" minPycor="-17" height="494" showTickCounter="true" patchSize="14.0" fontSize="15" wrappingAllowedY="true" width="494" tickCounterLabel="ticks" maxPycor="17" updateMode="1" maxPxcor="17" minPxcor="-17"></view>
@@ -303,7 +312,7 @@ end
     <slider x="15" step="1" y="130" max="10" width="250" display="relative-cost" height="50" min="-10" direction="Horizontal" default="-6.0" variable="relative-cost"></slider>
     <slider x="15" step="1" y="190" max="50" width="250" display="diversity" height="50" min="0" direction="Horizontal" default="25.0" variable="diversity"></slider>
     <slider x="15" step="1" y="250" max="100" width="250" display="average-ethicality" height="50" min="0" direction="Horizontal" default="50.0" variable="average-ethicality"></slider>
-    <slider x="5" step="1" y="10" max="100" width="250" display="number-of-agents" height="50" min="0" direction="Horizontal" default="45.0" variable="number-of-agents"></slider>
+    <slider x="5" step="1" y="10" max="100" width="250" display="number-of-agents" height="50" min="0" direction="Horizontal" default="20.0" variable="number-of-agents"></slider>
     <chooser x="15" y="320" height="60" variable="turtle-shape" current="0" width="250" display="turtle-shape">
       <choice type="string" value="person"></choice>
       <choice type="string" value="circle"></choice>
@@ -340,8 +349,8 @@ plot count turtles with [behavior = "unethical"]</update>
 plot mean [ethicality] of turtles</update>
       </pen>
     </plot>
-    <slider x="10" step="1" y="390" max="50" width="250" display="percent-copying" height="50" min="0" direction="Horizontal" default="25.0" variable="percent-copying"></slider>
-    <slider x="5" step="1" y="450" max="50" width="250" display="percent-frauds" height="50" min="0" direction="Horizontal" default="40.0" variable="percent-frauds"></slider>
+    <slider x="10" step="1" y="390" max="100" width="250" display="percent-copying" height="50" min="0" direction="Horizontal" default="50.0" variable="percent-copying"></slider>
+    <slider x="5" step="1" y="450" max="100" width="250" display="percent-frauds" height="50" min="0" direction="Horizontal" default="50.0" variable="percent-frauds"></slider>
   </widgets>
   <info><![CDATA[## WHAT IS IT?
 
