@@ -106,7 +106,12 @@ to assign-strategy
   ]
 end
 
+<<<<<<< HEAD
 ; makes a pair interact once before the agents move on to find another partner
+=======
+
+; makes a pair interact once before the agents move on to find another partner to pair with 
+>>>>>>> 0ac1ecb538f649ccc6fa6cd33e95ada2f875c5ec
 to interact
   ask turtles [
     if any? other turtles-here [
@@ -117,6 +122,7 @@ to interact
         ]
       ]
     ]
+    
   ]
 end
 
@@ -314,7 +320,10 @@ to update-visuals
   ask turtles [recolor]
 end
 
+<<<<<<< HEAD
 ;; Labels the agents on the patch.
+=======
+>>>>>>> 0ac1ecb538f649ccc6fa6cd33e95ada2f875c5ec
 to update-labels
   ask turtles [
     let short-strat ""
@@ -328,3 +337,7 @@ to update-labels
     set label (word short-strat "\ne:" ethicality "\ns:" myscore)
   ]
 end
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0ac1ecb538f649ccc6fa6cd33e95ada2f875c5ec
