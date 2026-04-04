@@ -1,24 +1,16 @@
 extensions [ time ]
 
 globals [
-  ;relative-cost        ;; this is the relative cost of ethical behavior
   ;diversity            ;; mutation strength during reproduction
-  ;average-ethicality   ;; level of ethicality for population
+  ;average-ethicality   ;; initial level of ethicality for population
   
-  ;; the global variables above might have to be deleted from the interface as well
-  
+  ; THE PAY-OFF SYSTEM
   T                    ;; +3 for unethicaleing and fooling other party
   R                    ;; +2 reward for both parties for co-operating
   P                    ;;  0 if the two parties defraud each other
   S                    ;; -1 for the party that get defrauded
-  
-  ;percent-copying     ;; we are currently testing this one
-  percent-avenger
-  ;percent-frauds      ;; we are currently testing this one
-  percent-cooperative
-  percent-detective
-  
-  
+  avg-score
+  avg-ethicality
 ]
 
 turtles-own [
@@ -73,8 +65,16 @@ to go
   
   ask turtles [move]
   interact
+  ifelse any? turtles [
+    set avg-score mean [myscore] of turtles
+    set avg-ethicality mean [ethicality] of turtles
+  ][
+    set avg-score 0
+    set avg-ethicality 0
+  ]
   reproduce
   update-visuals
+  update-labels
   update-plots
   tick              
 end
@@ -106,23 +106,15 @@ to assign-strategy
   ]
 end
 
-; make a pair interact continuously
-;to interact 
- ; ask turtles[
-  ;  if any? other turtles-here[
-   ;   let partner one-of other turtles-here
-    ;  interact-with partner
-    ;]
-  ;]
-;end
-
 ; makes a pair interact once before the agents move on to find another partner
 to interact
   ask turtles [
     if any? other turtles-here [
       let partner one-of other turtles-here
       if who < [who] of partner [
-        interact-with partner
+        repeat 20[
+          interact-with partner
+        ]
       ]
     ]
   ]
@@ -199,14 +191,32 @@ to-report decide-action [partner]
   ]
   
   
-  ;; The below strategy is more extensive than this as it also utilizes the strategy of the copying and fraud agent. 
-  ;; This is just a base of what it could be like.
+  ;; The detective agents utilizes the strategy of the copying and fraud agent. 
   if strategy = "detective" [
-    ;; simplified version
+    ;; the detective is to probe the partner before deciding acting like the copying agents
+    ;; probe sequence: E -> U -> E -> E (where E is ethical and U unethical)
     if sequence-step = 0 [ set sequence-step 1 report "ethical" ]
     if sequence-step = 1 [ set sequence-step 2 report "unethical" ]
-    report "ethical"
-  ]
+    if sequence-step = 2 [ set sequence-step 3 report "ethical"]
+    if sequence-step = 3 [ set sequence-step 4 report "ethical"]
+    
+    ;; This agent decides after the probing phase whether to become a copying or fraud
+    ;; agent based on his interactions with his partner
+    if sequence-step >= 4[
+      ;; Become copying agent if ever cheated
+      if has-been-cheated? [
+        ifelse[last-action] of partner = "unethical"[
+          report "unethical"
+        ][
+          report "ethical"
+        ]
+      ]
+      ;; else become fraud agent
+      if not has-been-cheated? [
+        report "unethical"
+      ]
+    ]  
+ ]
   
   ;; safety net
   report "ethical"
@@ -247,11 +257,22 @@ end
 ;; This is what decides or affects the diversity rate of the turtles. Evolutionary Selection
 ;; The 3 with lowest scores die and the 3 with highest score duplicate and their score halfens
 to reproduce
-  ; kills worst performers
-  ask min-n-of 3 turtles[myscore] [die]
-  
-  ; reproduces top perfromers at half their score
-  ask max-n-of 3 turtles[myscore] [
+  let n count turtles
+  if n = 0 [ stop ]  ;; safety
+
+  let k min list 3 n  ;; choose up to 3, but not more than available
+
+  ;; kill worst performers
+  ask min-n-of k turtles [myscore] [ die ]
+
+  ;; recompute count after deaths
+  let survivors count turtles
+  if survivors = 0 [ stop ]
+
+  let k2 min list 3 survivors
+
+  ;; reproduce top performers
+  ask max-n-of k2 turtles [myscore] [
     set myscore myscore / 2
     hatch 1[
       move
@@ -259,12 +280,12 @@ to reproduce
       ;; inherit strategy
       set strategy [strategy] of myself
   
-      ;; slight mutation (optional)
+      ;; mutation
       if random-float 100 < 5 [
         assign-strategy
       ]
   
-      ;; inherit ethicality slightly mutated
+      ;; inherit ethicality mutated
       set ethicality ethicality + random 5 - 2
       bound-ethicality
   
@@ -293,3 +314,17 @@ to update-visuals
   ask turtles [recolor]
 end
 
+;; Labels the agents on the patch.
+to update-labels
+  ask turtles [
+    let short-strat ""
+
+    if strategy = "copying" [ set short-strat "C" ]
+    if strategy = "fraud" [ set short-strat "F" ]
+    if strategy = "cooperator" [ set short-strat "Co" ]
+    if strategy = "avenger" [ set short-strat "A" ]
+    if strategy = "detective" [ set short-strat "D" ]
+
+    set label (word short-strat "\ne:" ethicality "\ns:" myscore)
+  ]
+end
